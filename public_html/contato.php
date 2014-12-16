@@ -9,7 +9,7 @@
 
         <div class="col-sm-8 blog-main">
             <?php
-            if($_POST['submit'])
+            if(isset($_POST['submit']))
             {
                 print('<p class="alert alert-success">Dados enviados com sucesso, abaixo seguem os dados que você enviou:</p>');
 
