@@ -1,3 +1,16 @@
+<?php
+///// Define as configurações do site //////
+include_once 'config.php';
+
+///// Define as rotas do site //////
+include_once 'rotas.php';
+
+///// Funções para o site //////
+include_once 'funcoes.php';
+
+$rota = verifica_rota($config, $rotas);
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -35,15 +48,15 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="index.php">Code.education</a>
+                    <a class="navbar-brand" href="home">Code.education</a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li <?php !(isset($_GET['pag'])) ? print('class="active"') : NULL; ?>><a href="index.php">Home</a></li>
-                        <li <?php (isset($_GET['pag']) && $_GET['pag'] == "empresa") ? print('class="active"') : NULL; ?>><a href="?pag=empresa">Empresa</a></li>
-                        <li <?php (isset($_GET['pag']) && $_GET['pag'] == "produtos") ? print('class="active"') : NULL; ?>><a href="?pag=produtos">Produtos</a></li>
-                        <li <?php (isset($_GET['pag']) && $_GET['pag'] == "servicos") ? print('class="active"') : NULL; ?>><a href="?pag=servicos">Serviços</a></li>
-                        <li <?php (isset($_GET['pag']) && $_GET['pag'] == "contato") ? print('class="active"') : NULL; ?>><a href="?pag=contato">Contato</a></li>
+                        <li <?php (isset($rota['uri']) && $rota['uri'] == "home") ? print('class="active"') : NULL; ?>><a href="home">Home</a></li>
+                        <li <?php (isset($rota['uri']) && $rota['uri'] == "empresa") ? print('class="active"') : NULL; ?>><a href="empresa">Empresa</a></li>
+                        <li <?php (isset($rota['uri']) && $rota['uri'] == "produtos") ? print('class="active"') : NULL; ?>><a href="produtos">Produtos</a></li>
+                        <li <?php (isset($rota['uri']) && $rota['uri'] == "servicos") ? print('class="active"') : NULL; ?>><a href="servicos">Serviços</a></li>
+                        <li <?php (isset($rota['uri']) && $rota['uri'] == "contato") ? print('class="active"') : NULL; ?>><a href="contato">Contato</a></li>
                     </ul>
                 </div>
             </div>
@@ -53,23 +66,13 @@
 </div>
 
     <?php
-    if(!isset($_GET['pag']))
+
+    if($rota['status-rota'])
     {
-        include_once 'home.php';
+        include_once $rota['arquivo'];
     }
     else {
-        switch($_GET['pag'])
-        {
-            case 'empresa':
-            case 'produtos':
-            case 'servicos':
-            case 'contato':
-                include_once $_GET['pag'] . '.php';
-            break;
-            default:
-                print('<div class="container-conteudo alert alert-warning text-center">Atenção! A página não foi encontrada.</div>');
-            break;
-        }
+        include_once 'pagina_home.php';
     }
     ?>
 
@@ -85,7 +88,6 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<script src="js/docs.min.js"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="js/ie10-viewport-bug-workaround.js"></script>
 </body>
